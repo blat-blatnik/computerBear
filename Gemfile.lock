@@ -255,9 +255,8 @@ PLATFORMS
   x64-mingw32
 
 DEPENDENCIES
-  github-pages
-  jekyll (~> 3.9.0)
-  kramdown-parser-gfm
+  github-pages (~> 207)
+  kramdown-parser-gfm (~> 1.1.0)
   tzinfo (~> 1.2)
   tzinfo-data
   wdm (~> 0.1.1)
