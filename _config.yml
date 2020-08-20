@@ -6,8 +6,8 @@ email: blatblatnik@protonmail.com
 tagline: 
 description: >- # ignore newlines
   Programming and gamedev blog.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "/computerBear" # the subpath of your site, e.g. /blog
+url: "https://blat-blatnik.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 github_username: blat-blatnik
 linkedin_username: boris-radovanovic-8bb8b71b2
 
