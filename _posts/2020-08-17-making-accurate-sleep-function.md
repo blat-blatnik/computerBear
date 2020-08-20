@@ -334,7 +334,7 @@ for (int i = 0; i < 1000; ++i) {
 
 Here's a graph comparing the errors for all 4 sleep functions:
 
-![Figure 1](/assets/sleep/fig1.svg#center)
+![Figure 1](../assets/sleep/fig1.svg#center)
 
 > **Figure 1** A graph comparing the absolute error of each sleep function in the 60 FPS game loop test. The bars represent the average error over 1000 runs, while the error lines represent the [minimum, maximum] error.
 
@@ -361,7 +361,7 @@ for (int64_t ns = 1; ns <= 1'000'000'000; ns *= 10) {
 
 And here's a graph showing the results.
 
-![Figure 2](/assets/sleep/fig2.svg#center)
+![Figure 2](../assets/sleep/fig2.svg#center)
 
 > **Figure 2** a log-log plot of the requested sleep time vs the actual measured sleep time when calling the different functions for various time intervals.
 
@@ -435,7 +435,7 @@ for (int64_t ms = 1; ms <= 10; ++ms) {
 
 Here are the results:
 
-![Figure 3](/assets/sleep/fig3.svg#center)
+![Figure 3](../assets/sleep/fig3.svg#center)
 
 > **Figure 3** The CPU usage of `preciseSleep()` and `timerSleep()` at different sleep intervals.
 
@@ -468,7 +468,7 @@ We've already seen that the system sleep function behaves something like the abo
 
 With this fake sleep function I measured the accuracy of `preciseSleep()` when `SCHEDULER_PERIOD` was set to 1ms .. 10ms. These are common periods for real OS schedulers so they should be representative. Either way, here are the results.
 
-![Figure 4](/assets/sleep/fig4.svg#center)
+![Figure 4](../assets/sleep/fig4.svg#center)
 
 > **Figure 4** A heatmap showing the relative error when sleeping with `preciseSleep()` for different time intervals and with different scheduler periods. The relative error is calculated as (t<sub>a</sub> - t<sub>r</sub> ) / t<sub>r</sub> where t<sub>r</sub> is the requested sleep time, and t<sub>a</sub> is the actual time spent sleeping.
 
