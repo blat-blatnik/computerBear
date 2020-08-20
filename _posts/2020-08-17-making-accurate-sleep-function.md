@@ -492,6 +492,6 @@ Either way, see you next time.
 
 ## Source Code
 
-You can download all of the source code used in this post, as well as the script I used to process the data by clicking [here](/assets/sleep/src.zip).
+You can download all of the source code used in this post, as well as the script I used to process the data by clicking [here](../assets/sleep/src.zip).
 
-If you want to take a look at the raw data used for the figures and data analysis you can download it by clicking here [here](/assets/sleep/data.zip).
+If you want to take a look at the raw data used for the figures and data analysis you can download it by clicking here [here](../assets/sleep/data.zip).
