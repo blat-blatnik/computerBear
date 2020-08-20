@@ -1,0 +1,9 @@
+{%- assign social = site.social_links -%}
+
+<ul class="social-media-list">
+  {%- if social.github -%}<li><a rel="me" href="https://github.com/{{ social.github | cgi_escape | escape }}" title="{{ social.github | escape }}"><svg class="social-icon grey"><use xlink:href="{{ '/assets/minima-social-icons.svg#github' | relative_url }}"></use></svg></a></li>
+  {%- endif -%}
+  {%- if social.stackoverflow -%}<li><a rel="me" href="https://stackoverflow.com/users/{{ social.stackoverflow | cgi_escape | escape }}" title="{{ social.stackoverflow | escape }}"><svg class="social-icon grey"><use xlink:href="{{ '/assets/minima-social-icons.svg#stackoverflow' | relative_url }}"></use></svg></a></li>{%- endif -%}
+  {%- if social.linkedin -%}<li><a rel="me" href="https://www.linkedin.com/in/{{ social.linkedin | cgi_escape | escape }}" title="{{ social.linkedin | escape }}"><svg class="social-icon grey"><use xlink:href="{{ '/assets/minima-social-icons.svg#linkedin' | relative_url }}"></use></svg></a></li>
+  {%- endif -%}
+</ul>

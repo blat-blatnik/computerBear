@@ -1,0 +1,52 @@
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
+
+title: computerBear
+email: blatblatnik@protonmail.com
+tagline: 
+description: >- # ignore newlines
+  Programming and gamedev blog.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "" # the base hostname & protocol for your site, e.g. http://example.com
+github_username: blat-blatnik
+linkedin_username: boris-radovanovic-8bb8b71b2
+
+author:
+  name: Blat Blatnik
+  email: "blatblatnik@protonmail.com"
+
+social_links:
+  github: blat-blatnik
+  linkedin: boris-radovanovic-8bb8b71b2
+
+# Build settings
+markdown: kramdown
+plugins:
+  - jekyll-feed
+
+permalink: /:title/
+
+# Make output css smaller
+sass:
+  sass_dir: _sass
+  style: compressed
+
+# Exclude from processing.
+# The following items will not be processed, by default.
+# Any item listed under the `exclude:` key here will be automatically added to
+# the internal "default list".
+#
+# Excluded items can be processed by explicitly listing the directories or
+# their entries' file path in the `include:` list.
+#
+# exclude:
+#   - .sass-cache/
+#   - .jekyll-cache/
+#   - gemfiles/
+#   - Gemfile
+#   - Gemfile.lock
+#   - node_modules/
+#   - vendor/bundle/
+#   - vendor/cache/
+#   - vendor/gems/
+#   - vendor/ruby/
