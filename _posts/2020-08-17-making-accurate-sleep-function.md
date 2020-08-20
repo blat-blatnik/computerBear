@@ -67,14 +67,14 @@ So far so good. This seems like it will do exactly what we want. But look at wha
 
 Yikes. That doesn't look precise at all. Remember that we were looking for steady 16.67ms, and not only are all frames taking longer than that, but the timings are completely inconsistent. 
 
-So why is the system sleep so imprecise? Well the answer is complicated. When you call Sleep, your application releases it's assigned CPU core to the OS's scheduler, so that it's free to do other tasks while your app waits. Ideally, the schedule will reschedule your application exactly at the time you requested, but things obviously don't happen this way for 2 main reasons:
+So why is the system sleep so imprecise? Well the answer is complicated. When you call `Sleep()`, your application releases it's assigned CPU core to the OS's scheduler, so that it's free to do other tasks while your app waits. Ideally, the schedule will reschedule your application exactly at the time you requested, but things obviously don't happen this way for 2 main reasons:
 
-1. The scheduler wakes up approximately every 3ms. So if you tried to sleep for 1ms, you would instead sleep for _at least_ 3ms. The exact frequency is system dependant, but it's usually 1-10ms these days. 
-2. when the time to reschedule comes, all threads might be in use by some higher-priority system services or apps, meaning you don't get your thread back until _they_ decide to sleep, or terminate.
+1. The scheduler wakes up approximately every 3ms. So if you tried to sleep for 1ms, you would instead sleep for _at least_ 1ms, but up to 4ms. The exact time depends on how well you were synchronized with the scheduler's own clock. 
+2. When the time to reschedule comes, all threads might be in use by some higher-priority system services or apps, meaning you don't get your thread back until _they_ decide to sleep, or terminate.
 
-So, calling sleep only guarantees that your thread will wait for _at least_ the given amount of time. Usually, this means 1-2ms more than you asked for. Also, this extra wait time is _random_ for all intents and purposes. It depends on your exact system, and what other programs are running.
+So, calling `Sleep()` only guarantees that your thread will wait for _at least_ the given amount of time. Usually, this means 1-2ms more than you asked for. Also, this extra wait time is _random_ for all intents and purposes. It depends on your exact system, what other programs are running, and the specific time you called `Sleep()`.
 
-One very good thing about sleep in general is that it conserves the CPU. While your program is sleeping, other programs can utilize "your" CPU time to do usefull work, and if nothing needs to run on the CPU, it can be put into low-power mode to save power and battery life.
+One very good thing about sleep in general is that it conserves the CPU. While your program is sleeping, other programs can utilize "your" CPU time to do usefull work, and if nothing else needs to run, the CPU can be put into low-power mode to save power and battery life.
 
 ## Spin-lock
 
@@ -116,7 +116,7 @@ As you can see, it's very easy to set up. And this is what the timing's look lik
  ...
 ```
 
-Even this sadly isn't fool proof though. You can clearly see that while _most_ frames run for 16.67ms, one ran for 16.79ms and another ran for 16.68ms. I don't really know exactly why this happens, but my guess is that this is a result of the scheduler poking our thread at a bad time, right before the wait was supposed to end.
+Even this sadly isn't fool proof though. You can clearly see that while _most_ frames run for 16.67ms, one ran for 16.79ms and another ran for 16.68ms. I don't really know exactly why this happens, but my guess is that the scheduler poked our thread at a bad time, right before the wait was supposed to end.
 
 Still, this is _the most precision we can possibly get here_.
 
@@ -125,8 +125,8 @@ The problem with this is that spin-locking eats up CPU time and does absolutely 
 ## Combining sleep and spin-lock
 
 So far we've tried two options, each with their own pros and cons:
-1. Sleep: conserves the CPU but is innacurate.
-2. Spin-lock: accurate but thrashes the CPU.
+1. **Sleep** conserves the CPU but is innacurate.
+2. **Spin-lock** accurate but thrashes the CPU.
 
 These are pretty much on oposite ends of the spectrum. If we could somehow get the best of both worlds, we would have a perfect sleep function.
 
@@ -189,7 +189,7 @@ This is what we get if we update our pretend-game loop from before to use this f
 
 That's looking very similar to the output for the spin-lock wait that we did before. Sometimes there are slight hiccups like that 16.98ms frame, but overall it's pretty much as perfect as we can hope to get. 
 
-And the best part about it is that it uses way less CPU than a pure spin-lock. Mind you it still uses _a lot_ more CPU than a pure Sleep loop. On my laptop it measures somewhere around 5% core usage on average, but that's way better than 100% with a pure spin-lock. We've basically cut down power usage by **95%** without a noticeable accuracy penalty.
+And the best part about it is that it uses way less CPU than a pure spin-lock. Mind you it still uses more CPU than a pure Sleep loop. On my laptop it measures somewhere around 5% core usage on average, but that's way better than 100% with a pure spin-lock. We've basically cut down power usage by **95%** without a noticeable accuracy penalty.
 
 ## How we got here
 
@@ -218,7 +218,7 @@ def preciseSleep(time)
 end
 ```
 
-Great, and now to deal with the elephant in the room.. We don't actually know how long `Sleep(1ms)` will take. But we can measure how long it takes to finish a bunch of times with our clock to get some estimate. And we can also keep updating our estimate while sleeping.
+Great, and now to deal with the elephant in the room.. We don't actually know how long `Sleep(1ms)` will take. But we can measure how long it takes to finish a bunch of times with our clock to get some estimate. And we can then keep updating this estimate while sleeping.
 
 ```ruby
 estimate = ??
@@ -237,7 +237,7 @@ end
 
 This is looking promising, but what's a good estimate here, and how do we find it? Well one thing we know for certain is that `Sleep(1ms)` will take _at least_ 1ms. It might take more, upwards of 10ms even, who knows, but we can safely set our initial estimate to something higher, like 5ms and then decrease it once we actually have data.
 
-The key realization here is that when we call `Sleep(1ms)`, we actually end up sleeping for 1ms + some random amount of noise time:
+Updating the estimate now might seem tricky, but the key realization here is that when we call `Sleep(1ms)`, we actually end up sleeping for 1ms + some random amount of noise time:
 
 ```ruby
 duration of Sleep(1ms) = 1ms + random()
@@ -272,7 +272,7 @@ and then replace `X` with any constant you like. I have it set to 1 because it's
 
 If you're dead set on writting portable standard C++ code, than the above `preciseSleep()` function is probably as good as you're gonna get. But if you're willing to step down into the pits of Windows hell, you can try using [waitable timers](https://docs.microsoft.com/en-us/windows/win32/sync/waitable-timer-objects) to drive your sleep function.
 
-The upside of this is that it's very CPU friendly. I got 0% reported CPU usage when using this in the pretend-game loop. The accuracy is significantly worse than `preciseSleep()`, but if an error of ~0.5ms is good enough for your needs then here you go:
+The upside of this is that it's very CPU friendly. I got 0% reported CPU usage when using this in the pretend-game loop. The accuracy is significantly worse than `preciseSleep()`, but if an error of ~0.2ms is good enough for your needs then here you go:
 
 ```cpp
 #include <windows.h>
@@ -317,7 +317,7 @@ void timerSleep(double seconds) {
 
 ## Data: accuracy
 
-How accurate is this precise sleeping function exactly? I'm not the sort of programmer that gets easily swayed without some numbers. So, let's get some.
+How accurate is this precise sleeping function exactly? I'm not the sort of programmer that gets easily swayed without some numbers, so let's get some.
 
 First, I ran all 4 different sleep functions we've disscussed above for 1000 frames in our 60 FPS game loop test, and I measured the average, minimum, and maximum deviation from 16.67ms frame times when using each sleep function:
 
@@ -342,7 +342,7 @@ You can clearly see how closely `preciseSleep()` matches spin-locking with a neg
 
 Note that in the 60 FPS game loop test we were basically always sleeping for 16.67ms, but these functions are also very precise at higher/lower sleep intervals.
 
-To show this, I ran each function 100 times in a loop with sleep intervals in 1ns, 10ns, 100ns, 1μs, 10μs, ... 1 second.
+To show this, I ran each function 100 times in a loop with sleep intervals in 1ns, 10ns, 100ns, ... 1 second.
 
 ```cpp
 for (int64_t ns = 1; ns <= 1'000'000'000; ns *= 10) {
@@ -371,7 +371,7 @@ I have to admit it's a bit difficult to tell how the different sleep function co
 
 ## Data: CPU usage
 
-So there's no way cross platform way to get CPU usage in C++ that I know of, so I resorted to using Windows' [`GetProcessTimes()`](https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getprocesstimes) function.
+There's no way cross platform way to get CPU usage in C++ that I know of, so I resorted to using Windows' [`GetProcessTimes()`](https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getprocesstimes) function.
 
 ```cpp
 double getProcessTime() {
@@ -474,11 +474,11 @@ With this fake sleep function I measured the accuracy of `preciseSleep()` when `
 
 Ok so from the heatmap you can see how the error gradually increases as the scheduler period increases. This shows that `preciseSleep()` isn't very robust against high scheduler periods when small intervals of sleep are requested. 
 
-We can also see that the error doesn't increase as much with higher scheduler periods, so `preciseSleep()` is pretty robust against higher scheduler periods when higher sleep intervals are requested (10+ ms).
+We can also see that the error doesn't increase as much when higher sleep intervals are requested (10+ ms). So `preciseSleep()` is pretty robust in those cases, but that doesn't mean much.
 
 ## Conclusion
 
-Well, we've seen first-hand the problems with using the system's `Sleep()` function for precise timing, and we've come up with 2 alternative sleeping functions to fix this. `preciseSleep()` is a cross platform function with higher precision, while `timerSleep()` is a Windows-only solution with a lower precision but lower CPU usage. 
+Well, we've seen the problems with using the system's `Sleep()` function for precise timing first-hand, and we've come up with 2 alternative sleeping functions to fix this. `preciseSleep()` is a cross platform solution with higher precision, while `timerSleep()` is a Windows-only solution with a lower precision but also lower CPU usage. 
 
 I think I've also demonstrated that both of these functions can be very precise with an average error less than 0.1ms. _But_ the caveat is that they behave unpredictably if ran on an operating system whose scheduler operates on a period > 5ms. 
 
@@ -494,4 +494,4 @@ Either way, see you next time.
 
 You can download all of the source code used in this post, as well as the script I used to process the data by clicking [here](../assets/sleep/src.zip).
 
-If you want to take a look at the raw data used for the figures and data analysis you can download it by clicking here [here](../assets/sleep/data.zip).
+You can download the raw data used for the figures by clicking here [here](../assets/sleep/data.zip).

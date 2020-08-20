@@ -29,7 +29,6 @@ p, blockquote, pre, hr,
 dl, dd, ol, ul, figure {
   margin: 0;
   padding: 0;
-
 }
 
 /**
@@ -94,13 +93,13 @@ img[src*='#center'] {
 /**
  * Figures
  */
-figure > img {
-  display: block;
-}
-
-figcaption {
-  font-size: $small-font-size;
-}
+//figure > img {
+//  display: block;
+//}
+//
+//figcaption {
+//  font-size: $small-font-size;
+//}
 
 /**
  * Lists
@@ -109,12 +108,12 @@ ul, ol {
   margin-left: $spacing-unit;
 }
 
-li {
-  > ul,
-  > ol {
-    margin-bottom: 0;
-  }
-}
+//li {
+//  > ul,
+//  > ol {
+//    margin-bottom: 0;
+//  }
+//}
 
 /**
  * Headings
@@ -138,14 +137,6 @@ a {
     color: $link-hover-color;
     text-decoration: underline;
   }
-
-  .social-media-list &:hover {
-    text-decoration: none;
-
-    .username {
-      text-decoration: underline;
-    }
-  }
 }
 
 /**
@@ -160,10 +151,6 @@ blockquote {
 
   > :last-child {
     margin-bottom: 0;
-  }
-
-  i, em {
-    font-style: normal;
   }
 }
 
@@ -196,13 +183,9 @@ pre {
 }
 
 .highlight {
-  //background: $code-background-color;
+  background: $code-background-color;
   border-radius: $code-border-radius;
   @extend %vertical-rhythm;
-
-  .highlighter-rouge & {
-    background: $code-background-color;
-  }
 }
 
 /**
@@ -235,26 +218,10 @@ pre {
 /**
  * Icons
  */
-.orange {
-  color: #f66a0a;
-}
-
-.grey {
-  color: #828282;
-}
-
-.svg-icon {
-  width: 16px;
-  height: 16px;
-  display: inline-block;
-  fill: currentColor;
-  padding: 5px 3px 2px 5px;
-  vertical-align: text-bottom;
-}
 
 .social-icon {
-  width: 32px;
-  height: 32px;
+  width: 26px;
+  height: 26px;
   display: inline-block;
   fill: currentColor;
   padding: 5px 3px 2px 5px;
@@ -271,7 +238,6 @@ table {
   text-align: $table-text-align;
   color: $table-text-color;
   border-collapse: collapse;
-  //border: 0px solid $table-border-color;
   margin-left: auto;
   margin-right: auto;
   tr {
@@ -284,8 +250,8 @@ table {
   }
   th {
 	font-weight: normal !important;
-    background-color: $table-header-bg-color;
-	border-bottom: 2px solid $table-header-border;
+    background-color: $background-color;
+	border-bottom: 2px solid $table-border-color;
   }
 
   @include media-query($on-laptop) {
@@ -337,19 +303,6 @@ table {
 
   .nav-trigger {
     display: none;
-  }
-
-  .menu-icon {
-    float: right;
-    width: 36px;
-    height: 26px;
-    line-height: 0;
-    padding-top: 10px;
-    text-align: center;
-
-    > svg path {
-      fill: $border-color-03;
-    }
   }
 
   label[for="nav-trigger"] {
@@ -431,16 +384,12 @@ table {
 .social-media-list {
   list-style: none;
   margin-left: 0;
+  margin-bottom: 0;
 }
 
-.footer-col-wrapper,
-.social-links {
+.footer-col-wrapper {
   @include relative-font-size(0.9375);
   color: $brand-color;
-}
-
-.footer-col {
-  margin-bottom: $spacing-unit / 2;
 }
 
 .footer-col-1,
@@ -546,6 +495,10 @@ table {
   h1, h2, h3 { margin-top: $spacing-unit * 2 }
   h4, h5, h6 { margin-top: $spacing-unit }
 
+  ol, ul {
+    margin-bottom: 15px;
+  }
+
   h2 {
     @include relative-font-size(1.75);
 
@@ -576,15 +529,10 @@ table {
 
 .social-media-list {
   display: table;
-  margin: 0 auto;
+  margin: 0;
   li {
     float: left;
     margin: 5px 10px 5px 0;
-    &:last-of-type { margin-right: 0 }
-    a {
-      display: block;
-	  //padding: $spacing-unit / 4;
-    }
   }
 }
 

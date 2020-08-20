@@ -5,7 +5,7 @@ title: computerBear
 email: blatblatnik@protonmail.com
 tagline: 
 description: >- # ignore newlines
-  Programming and gamedev blog.
+  Low-level programming and game development blog.
 baseurl: "/computerBear" # the subpath of your site, e.g. /blog
 url: "https://blat-blatnik.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 github_username: blat-blatnik
@@ -21,8 +21,8 @@ social_links:
 
 # Build settings
 markdown: kramdown
-plugins:
-  - jekyll-feed
+#plugins:
+#  - jekyll-feed
 
 permalink: /:title/
 
