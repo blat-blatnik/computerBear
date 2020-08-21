@@ -263,6 +263,18 @@ table {
 }
 
 /**
+ * Canvas
+ */
+canvas {
+	display: block; 
+	width:  100%; 
+	height: 60%; 
+	margin: auto; 
+	border: 8px solid #1e1e1e;
+	border-radius: 5px;
+}
+
+/**
  * Site header
  */
 .site-header {

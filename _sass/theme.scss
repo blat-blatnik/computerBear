@@ -36,8 +36,23 @@ $code-foreground-color: #c8c8c8 !default;
 $code-font-size:        1.05em;
 $code-border-radius:    5px;
 
+// kbd
+kbd {
+  font-family:          $base-font-family;
+  font-weight:          bold;
+  font-size:            13px;
+  color:                $text-color;
+  background-color:   #e8e8e8;
+  border:               2px solid;
+  padding:              1px 3px;
+  border-radius:        8px;
+  border-color:         #828282;
+  box-shadow:           inset 0 -1px 0 #828282;
+}
+
 // inline code
 .highlighter-rouge {
+  font-family:          $base-font-family;
   color:              #111111;
   background-color:   #e8e8e8;
   font-size:            0.85em;
