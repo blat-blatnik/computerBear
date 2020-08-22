@@ -76,7 +76,6 @@ var ctx = canvas.getContext("2d", { alpha: false });
 var rect = canvas.getBoundingClientRect();
 canvas.setAttribute("width", rect.width);
 canvas.setAttribute("height", rect.height);
-
 var width = canvas.width;
 var height = canvas.height;
 var fill = true;
