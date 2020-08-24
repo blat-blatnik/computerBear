@@ -384,7 +384,7 @@ canvas {
  */
 .site-footer {
   border-top: 1px solid $border-color-01;
-  padding: $spacing-unit 0;
+  padding: $spacing-unit/2 0;
 }
 
 .footer-heading {
@@ -504,8 +504,8 @@ canvas {
 .post-content {
   margin-bottom: $spacing-unit;
 
-  h1, h2, h3 { margin-top: $spacing-unit * 2 }
-  h4, h5, h6 { margin-top: $spacing-unit }
+  h1 { margin-top: $spacing-unit * 2; }
+  h2, h3, h4, h5, h6 { margin-top: $spacing-unit; }
 
   ol, ul {
     margin-bottom: 15px;
