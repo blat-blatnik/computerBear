@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "How to seemlessly sub-divide a circle at any scale"
+title: "How to seamlessly sub-divide a circle at any scale"
 date: 2020-08-21 13:00:00 +0300
 categories: rendering
 math: true
