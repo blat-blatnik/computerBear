@@ -6,6 +6,8 @@ categories: rendering
 math: true
 ---
 
+**Update** I've migrated this blog to [blog.bearcats.nl](https://blog.bearcats.nl). You can find an updated version of this post [here](https://blog.bearcats.nl/seamlessly-subdivide-circle/).
+
 GPUs render graphics strictly in triangles. A box or a square can be perfectly re-created using 2 triangles, and so can many other shapes with jagged edges. Circles on the other hand can be a little bit more problematic.
 
 Triangles are jagged by nature, so there's no way to _perfectly_ build a circle out triangles. But we can approximate. What we normally do, is we divide the circle into $N$ equal sections, and then approximate each section with a triangle.
