@@ -5,6 +5,8 @@ date: 2020-08-17 13:00:00 +0300
 categories: timing
 ---
 
+**Update** I've migrated this blog to [blog.bearcats.nl](https://blog.bearcats.nl). You can find an updated version of this post [here](https://blog.bearcats.nl/accurate-sleep-function/).
+
 There are many cases in programming where I wish the system `Sleep()` function was more accurate. Real-time rendering immediately comes to mind, as do animated GUI's. In both of these cases you want some piece of code to run on a fixed timer, executing _precisely_ every 16.67 milliseconds for 60 FPS.
 
 I haven't really found any usefull posts or tutorials about how to do precise timing anywhere else, so I decided to make a short post about my own precise timing solution.
