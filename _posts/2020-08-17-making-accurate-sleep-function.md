@@ -9,9 +9,9 @@ categories: timing
 
 There are many cases in programming where I wish the system `Sleep()` function was more accurate. Real-time rendering immediately comes to mind, as do animated GUI's. In both of these cases you want some piece of code to run on a fixed timer, executing _precisely_ every 16.67 milliseconds for 60 FPS.
 
-I haven't really found any usefull posts or tutorials about how to do precise timing anywhere else, so I decided to make a short post about my own precise timing solution.
+I haven't really found any useful posts or tutorials about how to do precise timing anywhere else, so I decided to make a short post about my own precise timing solution.
 
-**Note** this is only usefull if you can't use [vsync](https://en.wikipedia.org/wiki/Vsync_(computing)) for synchronization, or if you have no way to guarantee that vsync will be turned on on the user's machine.
+**Note** this is only useful if you can't use [vsync](https://en.wikipedia.org/wiki/Vsync_(computing)) for synchronization, or if you have no way to guarantee that vsync will be turned on on the user's machine.
 
 **Also note** this is by no means a _perfect_ solution, even though it seems to be pretty accurate, it isn't very robust and might act differently on different systems.
 
